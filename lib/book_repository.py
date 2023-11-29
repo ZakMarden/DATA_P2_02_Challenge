@@ -1,8 +1,13 @@
-from book import *
+from lib.book import *
 
 class BookRepo():
-    def __init__(self):
-        pass
+    def __init__(self, connection):
+        self._connection = connection
 
     def all(self):
-        pass
+        rows = self._connection.execute("SELECT * FROM books")
+        books = []
+        for row in rows:
+            book = Book(row["id"], row["title"], row["author_name"])
+            books.append(book)
+        return books
